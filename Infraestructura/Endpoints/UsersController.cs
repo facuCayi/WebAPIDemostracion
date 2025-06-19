@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
+using Dominio.Contracts.Servicios;
 
+    
 namespace Infraestructura.Endpoints
 {
     [Route("api/[controller]")]
@@ -10,27 +12,30 @@ namespace Infraestructura.Endpoints
     public class UsersController : ControllerBase
     {
 
-        private readonly AppDbContext _context;
-        public UsersController(AppDbContext context)
+        private readonly IUsuarioService usuarioService;
+        public UsersController(IUsuarioService usuarioService)
         {
-            _context = context;
+            this.usuarioService = usuarioService;
         }
 
         //GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Users>>> GetUsuarios()
         {
+
+            ActionResult result;
             try
             {
-                var usuarios = await _context.Users.ToListAsync();
-
-                return Ok(usuarios);
-
+                var usuarios = await usuarioService.GetAll();
+                result = Ok(usuarios);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al listar usuarios: {ex.Message}");
+                result = StatusCode(500, $"Error al listar usuarios: {ex.Message}");
             }
+           
+             return result;
+
         }
 
 
@@ -38,22 +43,18 @@ namespace Infraestructura.Endpoints
         [HttpGet("/nusercode")]
         public async Task<ActionResult<Users>> GetUsers(int nusercode)
         {
+            ActionResult result;
             try
-            {
-                var usuario = await _context.Users
-                    .Where( u =>
-                        u.Nusercode == nusercode
-                        ).FirstOrDefaultAsync();
-
-                return Ok(usuario);
-
+            { 
+                var usuario = await usuarioService.GetUsuarioByUserCode(nusercode);
+                result =  Ok(usuario);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al buscar usuario: {ex.Message}");
-
+                result =  StatusCode(500, $"Error al buscar usuario: {ex.Message}");
             }
 
+            return result;
 
         }
     }

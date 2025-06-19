@@ -22,7 +22,9 @@ namespace Infraestructura.Endpoints
         {
             try
             {
-                var provinces = await _context.Provinces.ToListAsync();
+                var provinces = await _context.Provinces
+                    .Include(c => c.Usuario)
+                    .ToListAsync();
                 return Ok(provinces);
             }
             catch (Exception ex)

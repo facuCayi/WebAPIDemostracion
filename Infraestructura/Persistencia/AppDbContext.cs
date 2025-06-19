@@ -87,6 +87,11 @@ namespace Infraestructura.Persistencia
 
             modelBuilder.Entity<Province>().ToTable("PROVINCE");
             modelBuilder.Entity<Province>().HasKey(p => p.Nprovince);
+            modelBuilder.Entity<Province>()
+               .HasOne(p => p.Usuario)
+               .WithMany() // Sin relación inversa explícita a menos que esté definida
+               .HasForeignKey(p => p.Nusercode)
+               .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Tab_locat>().ToTable("TAB_LOCAT");
             modelBuilder.Entity<Tab_locat>().HasKey(t => t.Nlocal);

@@ -19,8 +19,11 @@ namespace Dominio.Models
         public DateTime Dcompdate { get; set; }
 
         [Column("NUSERCODE")]
+        [ForeignKey(nameof(Usuario))]
         public int? Nusercode { get; set; }
 
+        public virtual Users Usuario { get; set; }
+        
     }
 
 }
