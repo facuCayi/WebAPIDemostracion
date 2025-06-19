@@ -1,6 +1,7 @@
-﻿using Infraestructura.Persistencia;
-using Microsoft.AspNetCore.Mvc;
+﻿using Dominio.Contracts.Servicios;
 using Dominio.Models;
+using Infraestructura.Persistencia;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infraestructura.Endpoints
@@ -9,57 +10,48 @@ namespace Infraestructura.Endpoints
     [ApiController]
     public class PolizasController : ControllerBase
     {
-        private readonly AppDbContext _context;
-
-        public PolizasController(AppDbContext context)
+        private readonly IPolizaService polizaService;
+        public PolizasController(IPolizaService polizaService)
         {
-            _context = context;
+            this.polizaService = polizaService;
         }
 
         // GET: api/polizas
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Poliza>>> GetPolizas()
         {
+            ActionResult result;
             try
             {
-                var polizas = await _context.Polizas
-                    .Include(p => p.Client)
-                    .Include(p => p.Way_pay)
-                    .Include(p => p.NullCode)
-                    .Include(p => p.Usuario)
-                    .Include(p => p.Product)
-                    .ToListAsync();
+                var polizas = await polizaService.GetAll();
 
-
-                return Ok(polizas);
+                result =  Ok(polizas);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al obtener pólizas: {ex.Message}");
+                result =  StatusCode(500, $"Error al obtener pólizas: {ex.Message}");
             }
+
+            return result;
         }
 
         // GET: api/polizas/cliente/{sclient}
         [HttpGet("cliente/{sclient}")]
         public async Task<ActionResult<IEnumerable<Poliza>>> GetPolizasPorCliente(string sclient)
         {
+            ActionResult result;
             try
             {
-                var polizas = await _context.Polizas
-                    .Include(p => p.Client)
-                    .Include(p => p.Way_pay)
-                    .Include(p => p.NullCode)
-                    .Include(p => p.Usuario)
-                    .Include(p => p.Product)
-                    .Where(c => c.Sclient == sclient)
-                    .ToListAsync();
+                var polizas = await polizaService.GetPolizasByUserCode(sclient);
 
-                return Ok(polizas);
+                result = Ok(polizas);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error al filtrar polizas por cliente: {ex.Message}");
             }
+
+            return result;
         }
 
     }

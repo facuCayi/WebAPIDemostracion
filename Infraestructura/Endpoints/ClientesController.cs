@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
+using Dominio.Contracts.Servicios;
 
 namespace Infraestructura.Endpoints
 {
@@ -10,34 +11,31 @@ namespace Infraestructura.Endpoints
 [ApiController]
 public class ClientesController : ControllerBase
 {
-        private readonly AppDbContext _context;
+        private readonly IClienteService clienteService;
 
-        public ClientesController(AppDbContext context)
+        public ClientesController(IClienteService clienteService)
         {
-            _context = context;
+            this.clienteService = clienteService;
         }
 
         // GET: api/clientes/{sclient}
         [HttpGet("{sclient}")]
         public async Task<ActionResult<Client>> GetClientePorSclient(string sclient)
         {
+            ActionResult result;
+
             try
             {
-                var cliente = await _context.Clients
-                .Include(c => c.Sex)
-                .Include(c => c.Nacionality)
-                .Include(c => c.Usuario)
-                .FirstOrDefaultAsync(c => c.Sclient == sclient);
+                var cliente = await clienteService.GetClientePorSclient(sclient);
 
-                if (cliente == null)
-                    return NotFound($"No se encontró el cliente con SCLIENT: {sclient}");
-
-                return Ok(cliente);
+                result =  Ok(cliente);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al obtener cliente: {ex.Message}");
+                result =  StatusCode(500, $"Error al obtener cliente: {ex.Message}");
             }
+
+            return result;
         }
     }
 }

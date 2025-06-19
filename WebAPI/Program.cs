@@ -15,6 +15,27 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped(typeof(IUsuarioService), typeof(UserService));
 builder.Services.AddScoped(typeof(IUsuarioRepository), typeof(UsuarioRepositorio));
 
+builder.Services.AddScoped(typeof(IPolizaService), typeof(PolizaService));
+builder.Services.AddScoped(typeof(IPolizaRepository), typeof(PolizaRepositorio));
+
+builder.Services.AddScoped(typeof(ITab_LocatService), typeof(Tab_LocatService));
+builder.Services.AddScoped(typeof(ITab_LocatRepository), typeof(Tab_LocatRepositorio));
+
+builder.Services.AddScoped(typeof(IAddressRepository), typeof(AddressRepositorio));
+builder.Services.AddScoped(typeof(IAddressService), typeof(AddressService));
+
+builder.Services.AddScoped(typeof(IClienteService), typeof(ClientService));
+builder.Services.AddScoped(typeof(IClientesRepository),typeof(ClientRepositorio));
+
+builder.Services.AddScoped(typeof(IMedioDePagoRepository), typeof(MedioDePagoRepositorio));
+builder.Services.AddScoped(typeof(IMedioDePagoService), typeof(MedioDePagoService));   
+
+builder.Services.AddScoped(typeof(IMotAnulPolService), typeof(MotAnulPolService));
+builder.Services.AddScoped(typeof(IMotAnulPolRepository), typeof(MotAnulPolRepositorio));
+
+builder.Services.AddScoped(typeof(IMotAnulRecService), typeof(MotAnulRecService));
+builder.Services.AddScoped(typeof(IMotAnulRecRepository), typeof(MotAnulRecRepositorio));
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
+using Dominio.Contracts.Servicios;
 
 namespace Infraestructura.Endpoints
 {
@@ -9,28 +10,31 @@ namespace Infraestructura.Endpoints
     [ApiController]
     public class MedioDePagoController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IMedioDePagoService medioDePagoService;
 
-        public MedioDePagoController(AppDbContext context)
+        public MedioDePagoController(IMedioDePagoService medioDePagoService)
         {
-            _context = context;
+            this.medioDePagoService = medioDePagoService;
         }
 
         //GET: api/MedioDePago
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MedioDePago>>> GetMediosDePago()
         {
+            ActionResult result;
             try
             {
-                var mediosDePago = await _context.MediosDePago.ToListAsync();
+                var mediosDePago = await medioDePagoService.GetAll();
 
-                return Ok(mediosDePago);
+                result =  Ok(mediosDePago);
 
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al listar medios de pago: {ex.Message}");
+                result = StatusCode(500, $"Error al listar medios de pago: {ex.Message}");
             }
+
+            return result;
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
+using Dominio.Contracts.Servicios;
 
 namespace Infraestructura.Endpoints
 {
@@ -10,27 +11,30 @@ namespace Infraestructura.Endpoints
     public class MotAnulacionReciboController : ControllerBase
     {
 
-        private readonly AppDbContext _context;
-        public MotAnulacionReciboController(AppDbContext context)
+        private readonly IMotAnulRecService motAnulRecService;
+        public MotAnulacionReciboController(IMotAnulRecService motAnulRecService)
         {
-            _context = context;
+            this.motAnulRecService = motAnulRecService;
         }
 
         //GET: api/MotAnulacionRecibo
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MotAnulacionRecibo>>> GetMotAanulRecibos()
         {
+            ActionResult result;
             try
             {
-                var motivoAnulRecibos = await _context.MotAnulacionRecibos.ToListAsync();
+                var motivoAnulRecibos = await motAnulRecService.GetAll();
 
-                return Ok(motivoAnulRecibos);
+                result = Ok(motivoAnulRecibos);
 
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al listar motivo anulacion recibos: {ex.Message}");
+                result =  StatusCode(500, $"Error al listar motivo anulacion recibos: {ex.Message}");
             }
+
+            return result;
         }
     }
 }
