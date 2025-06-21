@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
+using Dominio.Contracts.Servicios;
 
 namespace Infraestructura.Endpoints
 {
@@ -9,28 +10,31 @@ namespace Infraestructura.Endpoints
     [ApiController]
     public class SexoController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly ISexoService sexoService;
 
-        public SexoController(AppDbContext context)
+        public SexoController(ISexoService sexoService)
         {
-            _context = context;
+            this.sexoService = sexoService;
         }
 
         //GET: api/Sexo
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Sexo>>> GetSexos()
         {
+            ActionResult result;
             try
             {
-                var sexos = await _context.Sexos.ToListAsync();
+                var sexos = await sexoService.GetAll();   
 
-                return Ok(sexos);
+                result = Ok(sexos);
 
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al lista sexos: {ex.Message}");
+                result = StatusCode(500, $"Error al lista sexos: {ex.Message}");
             }
+
+            return result;
         }
     }
 }

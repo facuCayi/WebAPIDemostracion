@@ -36,6 +36,30 @@ builder.Services.AddScoped(typeof(IMotAnulPolRepository), typeof(MotAnulPolRepos
 builder.Services.AddScoped(typeof(IMotAnulRecService), typeof(MotAnulRecService));
 builder.Services.AddScoped(typeof(IMotAnulRecRepository), typeof(MotAnulRecRepositorio));
 
+builder.Services.AddScoped(typeof(IMunicipalityRepository), typeof(MunicipalityRepositorio));
+builder.Services.AddScoped(typeof(IMunicipalityService), typeof(MunicipalityService));
+
+builder.Services.AddScoped(typeof(INacionalidadService), typeof(NacionalidadService));
+builder.Services.AddScoped(typeof(INacionalidadRepository), typeof(NacionalidadRepositorio));
+
+builder.Services.AddScoped(typeof(IPolicyHistoryService), typeof(PolicyHistoryService));
+builder.Services.AddScoped(typeof(IPolicyHistoryRepository), typeof(PolicyHistoryRepositorio));
+
+builder.Services.AddScoped(typeof(IPremiumRepository), typeof(PremiumRepositorio));
+builder.Services.AddScoped(typeof(IPremiumService), typeof(PremiumService));
+
+builder.Services.AddScoped(typeof(IProductmasterRepository), typeof(ProductmasterRepositorio));
+builder.Services.AddScoped(typeof(IProductmasterService), typeof(ProductmasterService));
+
+builder.Services.AddScoped(typeof(IProvinceRepository), typeof(ProvinceRepositorio));
+builder.Services.AddScoped(typeof(IProvinceService), typeof(ProvinceService));
+
+builder.Services.AddScoped(typeof(IRamoComercialService), typeof(RamoComercialService));
+builder.Services.AddScoped(typeof(IRamoComercialRepository), typeof(RamoComercialRepositorio));
+
+builder.Services.AddScoped(typeof(ISexoRepository), typeof(SexoRepositorio));
+builder.Services.AddScoped(typeof(ISexoService), typeof(SexoService));
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

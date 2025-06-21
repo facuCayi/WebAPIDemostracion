@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
+using Dominio.Contracts.Servicios;
 
 namespace Infraestructura.Endpoints
 {
@@ -9,27 +10,30 @@ namespace Infraestructura.Endpoints
     [ApiController]
     public class RamoComercialController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        public RamoComercialController(AppDbContext context)
+        private readonly IRamoComercialService ramoService;
+        public RamoComercialController(IRamoComercialService ramoService)
         {
-            _context = context;
+            this.ramoService = ramoService;
         }
 
         //GET: api/RamoComercial
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RamoComercial>>> GetRamos()
         {
+            ActionResult result;
             try
             {
-                var ramos = await _context.RamoComercials.ToListAsync();
+                var ramos = await ramoService.GetAll();
 
-                return Ok(ramos);
+                result =  Ok(ramos);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al lista ramos comericales: {ex.Message}");
+                result = StatusCode(500, $"Error al lista ramos comericales: {ex.Message}");
             }
-        
+
+            return result;
+
         }
     }
 }

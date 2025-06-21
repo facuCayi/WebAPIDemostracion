@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
+using Dominio.Contracts.Repositorios;
+using Dominio.Contracts.Servicios;
 
 namespace Infraestructura.Endpoints
 {
@@ -9,27 +11,30 @@ namespace Infraestructura.Endpoints
     [ApiController]
     public class NacionalidadController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        public NacionalidadController(AppDbContext context)
+        private readonly INacionalidadService nacionalidadService;
+        public NacionalidadController(INacionalidadService nacionalidadService)
         {
-            _context = context;
+            this.nacionalidadService = nacionalidadService;
         }
 
         //GET: api/Nacionalidad
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Nacionalidad>>> GetNacionalidades()
         {
+            ActionResult result;
             try
             {
-                var nacionalidades = await _context.Nacionalidades.ToListAsync();
+                var nacionalidades = await nacionalidadService.GetAll();
 
-                return Ok(nacionalidades);
+                result =  Ok(nacionalidades);
 
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al listar nacionalidades: {ex.Message}");
+                result =  StatusCode(500, $"Error al listar nacionalidades: {ex.Message}");
             }
+
+            return result;
         }
     }
 }

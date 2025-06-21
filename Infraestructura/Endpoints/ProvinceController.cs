@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
+using Dominio.Contracts.Servicios;
 
 namespace Infraestructura.Endpoints
 {
@@ -9,28 +10,29 @@ namespace Infraestructura.Endpoints
     [ApiController]
     public class ProvinceController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IProvinceService provinceService;
 
-        public ProvinceController(AppDbContext context)
-        { 
-            _context = context;
+        public ProvinceController(IProvinceService provinceService)
+        {
+           this.provinceService = provinceService;
         }
 
         //GET: api/province
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Province>>> GetProvinces()
         {
+            ActionResult result;
             try
             {
-                var provinces = await _context.Provinces
-                    .Include(c => c.Usuario)
-                    .ToListAsync();
+                var provinces = await provinceService.GetAll();
                 return Ok(provinces);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al obtener provincias: {ex.Message}");
+                result = StatusCode(500, $"Error al obtener provincias: {ex.Message}");
             }
+
+            return result;
         }
 
 

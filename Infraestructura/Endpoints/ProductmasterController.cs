@@ -1,7 +1,6 @@
-﻿using Infraestructura.Persistencia;
-using Microsoft.AspNetCore.Mvc;
+﻿using Dominio.Contracts.Servicios;
 using Dominio.Models;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace Infraestructura.Endpoints
@@ -10,50 +9,49 @@ namespace Infraestructura.Endpoints
     [ApiController]
     public class ProductmasterController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IProductmasterService productmasterService;
 
-        public ProductmasterController(AppDbContext context)
+        public ProductmasterController(IProductmasterService productmasterService)
         {
-            _context = context;
+          this.productmasterService = productmasterService;
         }
 
         //GET: api/productmaster/{nbranch}
         [HttpGet("{nbranch}")]
         public async Task<ActionResult<IEnumerable<Productmaster>>> GetProductosPorRama(int nbranch)
         {
+            ActionResult result;
             try
             {
-                var productos = await _context.Productmasters
-                    .Include(p => p.Branch)
-                    .Include(p => p.Usuario)
-                    .Where(p => p.Nbranch == nbranch)
-                    .ToListAsync();
+                var productos = await productmasterService.GetProductosPorRama(nbranch);  
 
-                return Ok(productos);
+                result =  Ok(productos);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al obtener los productos por rama: {ex.Message}");
+                result = StatusCode(500, $"Error al obtener los productos por rama: {ex.Message}");
             }
+
+            return result;
         }
 
         //GET: api/productmaster}
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Productmaster>>> GetProductos()
         {
+            ActionResult result;
             try
             {
-                var productos = await _context.Productmasters
-                    .Include(p => p.Branch)
-                    .Include(p => p.Usuario)
-                    .ToListAsync();
+                var productos = await productmasterService.GetAll();
 
-                return Ok(productos);
+                result =  Ok(productos);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al listar los productos : {ex.Message}");
+                result = StatusCode(500, $"Error al listar los productos : {ex.Message}");
             }
+
+            return result;
         }
 
     }

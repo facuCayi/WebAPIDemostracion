@@ -12,7 +12,7 @@ namespace Infraestructura.Persistencia.Repositorios
         {
             this.context = context;
         }
-        public Task<Address> GetAddress(int nrecowner, string skeyaddress, string deffecdate, string sinfor)
+        public Task<Address?> GetAddress(int nrecowner, string skeyaddress, string deffecdate, string sinfor)
         {
             DateTime fecha;
             DateTime.TryParseExact(deffecdate, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out fecha);

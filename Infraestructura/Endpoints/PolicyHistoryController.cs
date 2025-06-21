@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
+using Dominio.Contracts.Servicios;
 
 namespace Infraestructura.Endpoints
 {
@@ -9,35 +10,31 @@ namespace Infraestructura.Endpoints
     [ApiController]
     public class PolicyHistoryController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IPolicyHistoryService policyHistoryService;
 
-        public PolicyHistoryController(AppDbContext context)
+        public PolicyHistoryController(IPolicyHistoryService policyHistoryService)
         {
-            _context = context;
+            this.policyHistoryService = policyHistoryService;
         }
 
         //GET: api/PolicyHistory
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PolicyHistory>>> GetPolicyHistorys()
         {
+            ActionResult result;
             try
             {
-                var historiales = await _context.PolicyHistories
-                    .Include(p => p.Client)
-                    .Include(p => p.Way_pay)
-                    .Include(p => p.NullCode)
-                    .Include(p => p.Usuario)
-                    .Include(p => p.Branch)
-                    .Include(p => p.Product)
-                    .ToListAsync();
+                var historiales = await policyHistoryService.GetAll();
 
-                return Ok(historiales);
+                result =  Ok(historiales);
 
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al listar historiales de poliza: {ex.Message}");
+                result = StatusCode(500, $"Error al listar historiales de poliza: {ex.Message}");
             }
+
+            return result;
         }
     }
 }

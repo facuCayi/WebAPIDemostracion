@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
+using Dominio.Contracts.Servicios;
 
 
 namespace Infraestructura.Endpoints
@@ -10,47 +11,48 @@ namespace Infraestructura.Endpoints
     [ApiController]
     public class MunicipalityController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IMunicipalityService municipalityService;
 
-        public MunicipalityController(AppDbContext context)
+        public MunicipalityController(IMunicipalityService municipalityService)
         {
-            _context = context;
+           this.municipalityService = municipalityService;
         }
 
         // GET: api/municipality
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Municipality>>> GetMunicipalities()
         {
+            ActionResult result;
             try
             {
-                var municipalities = await _context.Municipalities
-                    .Include(p => p.Provincia)
-                    .ToListAsync();
-                return Ok(municipalities);
+                var municipalities = await municipalityService.GetAll();
+                result =  Ok(municipalities);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al obtener municipalidades: {ex.Message}");
+                result = StatusCode(500, $"Error al obtener municipalidades: {ex.Message}");
             }
+
+            return result;
         }
 
         // GET: api/municipality/province/{nprovince}
         [HttpGet("{nprovince}")]
         public async Task<ActionResult<IEnumerable<Municipality>>> GetMunicipalityPorNProvince(int nprovince)
         {
+            ActionResult result;
             try
             {
-                var municipalidad = await _context.Municipalities
-                   .Include (p => p.Provincia)
-                  .Where(m => m.Nprovince == nprovince)
-                  .ToListAsync();
+                var municipalidad = await municipalityService.GetByProvince(nprovince);
 
-                return Ok(municipalidad);
+                result =  Ok(municipalidad);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al obtener municipalidades: {ex.Message}");
+                result = StatusCode(500, $"Error al obtener municipalidades: {ex.Message}");
             }
+
+            return result;
         }
     }
 }
