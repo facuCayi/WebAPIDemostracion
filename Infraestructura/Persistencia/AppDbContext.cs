@@ -122,6 +122,10 @@ namespace Infraestructura.Persistencia
 
             modelBuilder.Entity<MedioDePago>().ToTable("TABLE5002");
             modelBuilder.Entity<MedioDePago>().HasKey(s => s.Nway_pay);
+            modelBuilder.Entity<MedioDePago>()
+                .HasOne(m => m.Usuario)
+                .WithMany()
+                .HasForeignKey(m => m.Nusercode);
 
             modelBuilder.Entity<Nacionalidad>().ToTable("TABLE5518");
             modelBuilder.Entity<Nacionalidad>().HasKey(n => n.Nnationality);

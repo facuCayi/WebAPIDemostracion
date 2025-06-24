@@ -22,6 +22,10 @@ namespace Dominio.Models
 
 
         [Column("NUSERCODE")]
-        public int? Nusercode { get; set; }
+        public  int? Nusercode { get; set; }
+        /*public int? Nusercode { get; set; }*/
+
+        /*[ForeignKey("NUserCode")]*/
+        public virtual Users Usuario { get; set; }
     }
 }

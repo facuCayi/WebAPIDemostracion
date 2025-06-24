@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
 using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
+using Aplicacion.Services;
 
 namespace Infraestructura.Endpoints
 {
@@ -19,22 +21,19 @@ namespace Infraestructura.Endpoints
 
         //GET: api/MedioDePago
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MedioDePago>>> GetMediosDePago()
+        public ActionResult<IEnumerable<MedioDePagoComboBoxTratPolResponse>> GetMediosDePago()
         {
-            ActionResult result;
+            ActionResult<IEnumerable<MedioDePagoComboBoxTratPolResponse>> resultado;
             try
             {
-                var mediosDePago = await medioDePagoService.GetAll();
-
-                result =  Ok(mediosDePago);
-
+                List<MedioDePagoComboBoxTratPolResponse> wayPay = medioDePagoService.GetAll();
+                resultado = Ok(wayPay);
             }
             catch (Exception ex)
             {
-                result = StatusCode(500, $"Error al listar medios de pago: {ex.Message}");
+                resultado = StatusCode(500, ex.Message);
             }
-
-            return result;
+            return resultado;
         }
     }
 }
