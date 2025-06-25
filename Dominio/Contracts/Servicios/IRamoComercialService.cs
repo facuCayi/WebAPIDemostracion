@@ -1,9 +1,9 @@
-﻿using Dominio.Models;
+﻿using Dominio.DTO_s.Response;
 
 namespace Dominio.Contracts.Servicios
 {
     public interface IRamoComercialService
     {
-        Task<List<RamoComercial>> GetAll();
+        List<RamoComercialDDLResponse> GetAll();
     }
 }

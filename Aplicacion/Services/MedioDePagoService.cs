@@ -7,7 +7,7 @@ namespace Aplicacion.Services
 {
     public class MedioDePagoService : IMedioDePagoService
     {
-        private readonly IMedioDePagoRepository medioDePagoRepository;
+        private readonly IMedioDePagoRepository    medioDePagoRepository;
 
                public MedioDePagoService(IMedioDePagoRepository medioDePagoRepository)
         {

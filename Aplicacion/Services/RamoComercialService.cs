@@ -1,6 +1,8 @@
 ﻿using Dominio.Contracts.Servicios;
 using Dominio.Models;
 using Dominio.Contracts.Repositorios;
+using Dominio.DTO_s.Response;
+
 
 
 namespace Aplicacion.Services
@@ -12,9 +14,15 @@ namespace Aplicacion.Services
         {
             _ramoComercialRepository = ramoComercialRepository;
         }
-        public  Task<List<RamoComercial>> GetAll()
+        public  List<RamoComercialDDLResponse> GetAll()
         {
-            return  _ramoComercialRepository.GetAll();
+            List<RamoComercial> ramoComerciales = _ramoComercialRepository.GetAll().Result;
+            List<RamoComercialDDLResponse> response = ramoComerciales.Select(rc => new RamoComercialDDLResponse
+            {
+                NBRANCH = rc.Nbranch,
+                SDESCRIPT = rc.Sdescript == null ? string.Empty : rc.Sdescript.Trim()
+            }).ToList();
+            return response;
         }
 
     }

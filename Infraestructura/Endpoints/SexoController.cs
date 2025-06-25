@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
 using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 
 namespace Infraestructura.Endpoints
 {
@@ -19,12 +20,12 @@ namespace Infraestructura.Endpoints
 
         //GET: api/Sexo
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Sexo>>> GetSexos()
+        public ActionResult<IEnumerable<SexoDDLResponse>> GetSexos()
         {
-            ActionResult result;
+            ActionResult<IEnumerable<SexoDDLResponse>> result;
             try
             {
-                var sexos = await sexoService.GetAll();   
+                List<SexoDDLResponse> sexos = sexoService.GetAll();   
 
                 result = Ok(sexos);
 

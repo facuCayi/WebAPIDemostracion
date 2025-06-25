@@ -1,25 +1,31 @@
 ﻿using Dominio.Contracts.Servicios;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dominio.Models;
 using Dominio.Contracts.Repositorios;
+using Dominio.DTO_s.Response;
+
 
 namespace Aplicacion.Services
 {
     public class SexoService : ISexoService
     {
-        private readonly ISexoRepository _sexoRepository;
+        private readonly ISexoRepository sexoRepository;
         public SexoService(ISexoRepository sexoRepository)
         {
-            _sexoRepository = sexoRepository;
+            this.sexoRepository = sexoRepository;
         }
-        public async Task<List<Sexo>> GetAll()
+      
+       public List<SexoDDLResponse> GetAll()
         {
-            return await _sexoRepository.GetAll();
+           List<Sexo> sexos = this.sexoRepository.GetAll().Result;      
+           List<SexoDDLResponse> response = sexos.Select(s => new SexoDDLResponse
+            {
+                SSEXCLIEN = s.Ssexclien,
+                SDESCRIPT = s.Sdescript == null ? string.Empty : s.Sdescript.Trim()
+            }).ToList();
+            return response;
+
         }
+
     }
     
 }

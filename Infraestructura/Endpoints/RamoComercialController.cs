@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
 using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 
 namespace Infraestructura.Endpoints
 {
@@ -18,12 +19,12 @@ namespace Infraestructura.Endpoints
 
         //GET: api/RamoComercial
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RamoComercial>>> GetRamos()
+        public ActionResult<IEnumerable<RamoComercialDDLResponse>> GetRamos()
         {
-            ActionResult result;
+            ActionResult<IEnumerable<RamoComercialDDLResponse>> result;
             try
             {
-                var ramos = await ramoService.GetAll();
+                List<RamoComercialDDLResponse> ramos = ramoService.GetAll();
 
                 result =  Ok(ramos);
             }

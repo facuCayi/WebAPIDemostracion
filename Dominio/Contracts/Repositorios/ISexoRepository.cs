@@ -4,7 +4,7 @@ namespace Dominio.Contracts.Repositorios
 {
     public interface ISexoRepository
     {
-         public Task<List<Sexo>> GetAll();
+         Task<List<Sexo>> GetAll();
         
     }
 }
