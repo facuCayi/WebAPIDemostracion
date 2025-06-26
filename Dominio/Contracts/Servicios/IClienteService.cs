@@ -1,9 +1,10 @@
-﻿using Dominio.Models;
+﻿using Dominio.DTO_s.Response;
+using Dominio.Models;
 
 namespace Dominio.Contracts.Servicios
 {
     public interface IClienteService
     {
-        Task<Client> GetClientePorSclient(string scliente);
+        ClienteFindResponse GetClientePorSclient(string scliente);
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
 using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 
 namespace Infraestructura.Endpoints
 {
@@ -19,12 +20,12 @@ namespace Infraestructura.Endpoints
 
         //GET: api/MotAnulacionRecibo
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MotAnulacionRecibo>>> GetMotAanulRecibos()
+        public ActionResult<IEnumerable<ClaseDDLResponse>> GetMotAanulRecibos()
         {
-            ActionResult result;
+            ActionResult<IEnumerable<ClaseDDLResponse>> result;
             try
             {
-                var motivoAnulRecibos = await motAnulRecService.GetAll();
+                List<ClaseDDLResponse> motivoAnulRecibos = motAnulRecService.GetAll();
 
                 result = Ok(motivoAnulRecibos);
 

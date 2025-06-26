@@ -1,5 +1,6 @@
 ﻿using Dominio.Contracts.Repositorios;
 using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 using Dominio.Models;
 
 
@@ -12,14 +13,28 @@ namespace Aplicacion.Services
         {
             _productmasterRepository = productmasterRepository;
         }
-        public Task<List<Productmaster>> GetAll()
+        public List<ClaseDDLResponse> GetAll()
         {
-            return _productmasterRepository.GetAll();
-        }
+            List<Productmaster> products = _productmasterRepository.GetAll().Result;
+            List<ClaseDDLResponse> response = products.Select(p => new ClaseDDLResponse
+            {
+                NCODIGO = p.Nproduct,
+                SDESCRIPT = p.Sdescript == null ? string.Empty : p.Sdescript.Trim()
+            }).ToList();
 
-        public Task<List<Productmaster>> GetProductosPorRama(int nbranch)
+            return response;
+            }
+        public List<ClaseDDLResponse> GetProductosPorRama(int nbranch)
         {
-            return _productmasterRepository.GetProductosPorRama(nbranch);
+            List<Productmaster> products = _productmasterRepository.GetProductosPorRama(nbranch).Result;
+            List<ClaseDDLResponse> response = products
+                .Select(p => new ClaseDDLResponse
+            {
+                NCODIGO = p.Nproduct,
+                SDESCRIPT = p.Sdescript == null ? string.Empty : p.Sdescript.Trim()
+            }).ToList();
+
+            return response;
         }
     }
     

@@ -1,6 +1,7 @@
 ﻿using Dominio.Contracts.Servicios;
 using Dominio.Models;
 using Dominio.Contracts.Repositorios;
+using Dominio.DTO_s.Response;
 
 namespace Aplicacion.Services
 {
@@ -11,9 +12,16 @@ namespace Aplicacion.Services
         {
             _nacionalidadRepository = nacionalidadRepository;
         }
-        public  Task<List<Nacionalidad>> GetAll()
+        public  List<ClaseDDLResponse> GetAll()
         {
-            return _nacionalidadRepository.GetAll();
+            List<Nacionalidad> nacionalidades = _nacionalidadRepository.GetAll().Result;
+            List<ClaseDDLResponse> response = nacionalidades.Select(n => new ClaseDDLResponse
+            {
+                NCODIGO = n.Nnationality,
+                SDESCRIPT = n.Sdescript == null ? string.Empty : n.Sdescript.Trim()
+            }).ToList();
+
+            return response;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Dominio.Contracts.Repositorios;
 using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 using Dominio.Models;
 
 namespace Aplicacion.Services
@@ -11,9 +12,16 @@ namespace Aplicacion.Services
         {
             this.motAnulPolRepository = motAnulPolRepository;
         }
-        public Task<List<MotAnulacionPoliza>> GetAll()
+        public List<ClaseDDLResponse> GetAll()
         {
-            return motAnulPolRepository.GetAll();
+            List<MotAnulacionPoliza> motivos = motAnulPolRepository.GetAll().Result;
+            List<ClaseDDLResponse> response = motivos.Select(x => new ClaseDDLResponse
+            {
+                NCODIGO = x.Nnullcode,
+                SDESCRIPT = x.Sdescript == null ? string.Empty : x.Sdescript.Trim()
+            }).ToList();
+            return response;
         }
+  
     }
 }

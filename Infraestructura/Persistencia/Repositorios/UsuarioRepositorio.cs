@@ -13,7 +13,7 @@ namespace Infraestructura.Persistencia.Repositorios;
         this.context = context;
     }
 
-    public Task<List<Users>> GetAllUsuarios()
+    public Task<List<Users>> GetAll()
     {
         return context.Users.ToListAsync();
     }

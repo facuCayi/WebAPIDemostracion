@@ -1,5 +1,6 @@
 ﻿using Dominio.Contracts.Repositorios;
 using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 using Dominio.Models;
 
 
@@ -12,9 +13,26 @@ namespace Aplicacion.Services
         {
             this.clienteRepository = clienteRepository;
         }
-        public Task<Client> GetClientePorSclient(string sclient)
+        public ClienteFindResponse GetClientePorSclient(string sclient)
         {
-            return clienteRepository.GetClientePorSclient(sclient);
+            Client cliente = clienteRepository.GetClientePorSclient(sclient).Result;
+            ClienteFindResponse clienteResponse = new ClienteFindResponse
+            {
+                SCLIENT = cliente.Sclient,
+                DBIRTHDAT = cliente.Dbirthdat,
+                SFIRSTNAME = cliente.Sfirstname,
+                SLASTNAME = cliente.Slastname,
+                SLASTNAME2 = cliente.Slastname2,
+                SCUIT = cliente.Scuit,
+                SLEGALNAME = cliente.Slegalname,
+                SCLIENAME  = cliente.Scliename,
+                SSEXCLIEN = cliente.Ssexclien,
+                NNATIONALITY = cliente.Nnationality,
+                NSTATREGT = cliente.Nstatregt,
+                DCOMPDATE = cliente.Dcompdate,
+                NUSERCODE = cliente.Nusercode
+            };
+            return clienteResponse;
         }
     }
 }

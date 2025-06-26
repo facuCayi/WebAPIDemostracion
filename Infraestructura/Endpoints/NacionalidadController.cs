@@ -4,6 +4,7 @@ using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
 using Dominio.Contracts.Repositorios;
 using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 
 namespace Infraestructura.Endpoints
 {
@@ -19,12 +20,12 @@ namespace Infraestructura.Endpoints
 
         //GET: api/Nacionalidad
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Nacionalidad>>> GetNacionalidades()
+        public ActionResult<IEnumerable<ClaseDDLResponse>> GetNacionalidades()
         {
-            ActionResult result;
+            ActionResult<IEnumerable<ClaseDDLResponse>> result;
             try
             {
-                var nacionalidades = await nacionalidadService.GetAll();
+                List<ClaseDDLResponse> nacionalidades =  nacionalidadService.GetAll();
 
                 result =  Ok(nacionalidades);
 

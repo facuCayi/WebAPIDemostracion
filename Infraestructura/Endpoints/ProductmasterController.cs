@@ -1,4 +1,5 @@
 ﻿using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 using Dominio.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,12 +19,12 @@ namespace Infraestructura.Endpoints
 
         //GET: api/productmaster/{nbranch}
         [HttpGet("{nbranch}")]
-        public async Task<ActionResult<IEnumerable<Productmaster>>> GetProductosPorRama(int nbranch)
+        public ActionResult<IEnumerable<ClaseDDLResponse>> GetProductosPorRama(int nbranch)
         {
-            ActionResult result;
+            ActionResult<IEnumerable<ClaseDDLResponse>> result;
             try
             {
-                var productos = await productmasterService.GetProductosPorRama(nbranch);  
+                List<ClaseDDLResponse> productos = productmasterService.GetProductosPorRama(nbranch);  
 
                 result =  Ok(productos);
             }
@@ -37,12 +38,12 @@ namespace Infraestructura.Endpoints
 
         //GET: api/productmaster}
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Productmaster>>> GetProductos()
+        public ActionResult<IEnumerable<ClaseDDLResponse>> GetProductos()
         {
             ActionResult result;
             try
             {
-                var productos = await productmasterService.GetAll();
+                List<ClaseDDLResponse> productos = productmasterService.GetAll();
 
                 result =  Ok(productos);
             }

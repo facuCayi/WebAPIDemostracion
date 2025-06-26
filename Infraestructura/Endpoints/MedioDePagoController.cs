@@ -21,12 +21,12 @@ namespace Infraestructura.Endpoints
 
         //GET: api/MedioDePago
         [HttpGet]
-        public ActionResult<IEnumerable<MedioDePagoComboBoxTratPolResponse>> GetMediosDePago()
+        public ActionResult<IEnumerable<ClaseDDLResponse>> GetMediosDePago()
         {
-            ActionResult<IEnumerable<MedioDePagoComboBoxTratPolResponse>> resultado;
+            ActionResult<IEnumerable<ClaseDDLResponse>> resultado;
             try
             {
-                List<MedioDePagoComboBoxTratPolResponse> wayPay = medioDePagoService.GetAll();
+                List<ClaseDDLResponse> wayPay = medioDePagoService.GetAll();
                 resultado = Ok(wayPay);
             }
             catch (Exception ex)

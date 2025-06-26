@@ -1,8 +1,9 @@
-﻿using Infraestructura.Persistencia;
-using Microsoft.AspNetCore.Mvc;
+﻿using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 using Dominio.Models;
+using Infraestructura.Persistencia;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Dominio.Contracts.Servicios;
 
 namespace Infraestructura.Endpoints
 {
@@ -19,12 +20,12 @@ namespace Infraestructura.Endpoints
 
         //GET: api/province
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Province>>> GetProvinces()
+        public ActionResult<IEnumerable<ClaseDDLResponse>> GetProvinces()
         {
-            ActionResult result;
+            ActionResult<IEnumerable<ClaseDDLResponse>> result;
             try
             {
-                var provinces = await provinceService.GetAll();
+                List<ClaseDDLResponse> provinces = provinceService.GetAll();
                 return Ok(provinces);
             }
             catch (Exception ex)

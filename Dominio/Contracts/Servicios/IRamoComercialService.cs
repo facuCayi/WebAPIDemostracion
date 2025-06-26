@@ -4,6 +4,6 @@ namespace Dominio.Contracts.Servicios
 {
     public interface IRamoComercialService
     {
-        List<RamoComercialDDLResponse> GetAll();
+        List<ClaseDDLResponse> GetAll();
     }
 }

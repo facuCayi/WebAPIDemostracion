@@ -61,6 +61,9 @@ namespace Dominio.Models
 
         public virtual Productmaster Product { get; set; }
 
+    
+       
+
 
     }
 }

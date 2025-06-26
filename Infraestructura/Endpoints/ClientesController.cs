@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
 using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 
 namespace Infraestructura.Endpoints
 {
@@ -20,13 +21,13 @@ public class ClientesController : ControllerBase
 
         // GET: api/clientes/{sclient}
         [HttpGet("{sclient}")]
-        public async Task<ActionResult<Client>> GetClientePorSclient(string sclient)
+        public ActionResult<ClienteFindResponse> GetClientePorSclient(string sclient)
         {
-            ActionResult result;
+            ActionResult<ClienteFindResponse> result;
 
             try
             {
-                var cliente = await clienteService.GetClientePorSclient(sclient);
+                ClienteFindResponse cliente = clienteService.GetClientePorSclient(sclient);
 
                 result =  Ok(cliente);
             }

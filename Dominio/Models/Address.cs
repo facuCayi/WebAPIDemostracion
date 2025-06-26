@@ -46,12 +46,15 @@ namespace Dominio.Models
 
         [Column("NLOCAL")]
         public int Nlocal { get; set; }
+        public virtual Tab_locat Localidad { get; set; } = null!;
 
         [Column("NMUNICIPALITY")]
         public int Nmunicipality { get; set; }
+        public virtual Municipality Municipio { get; set; }
 
         [Column("NPROVINCE")]
         public int Nprovince { get; set; }
+        public virtual Province Provincia { get; set; }
 
         [Column("SE_MAIL", TypeName = "char(60)")]
         [StringLength(60)]
@@ -59,22 +62,27 @@ namespace Dominio.Models
 
         [Column("NBRANCH")]
         public int? Nbranch { get; set; }
+        public virtual RamoComercial Branch { get; set; }
 
         [Column("NPRODUCT")]
         public int? Nproduct { get; set; }
+        public virtual Productmaster Producto { get; set; }
 
         [Column("NPOLICY")]
         public int? Npolicy { get; set; }
+        public virtual Poliza Poliza { get; set; }
 
         [Column("SCLIENT", TypeName = "char(14)")]
         [StringLength(14)]
         public string? Sclient { get; set; } = null!;
+        public virtual Client Cliente { get; set; }
 
         [Column("DCOMPDATE")]
         public DateTime Dcompdate { get; set; }
 
         [Column("NUSERCODE")]
         public int? Nusercode { get; set; }
+        public virtual Users Usuario { get; set; }
 
         [Column("SZIP_CODE", TypeName = "char(8)")]
         [StringLength(8)]

@@ -76,6 +76,47 @@ namespace Infraestructura.Persistencia
 
             modelBuilder.Entity<Address>().ToTable("ADDRESS");
             modelBuilder.Entity<Address>().HasKey(a => new { a.Nrecowner, a.Skeyaddress, a.Sinfor });
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.Municipio)
+                .WithMany() // Sin relación inversa explícita
+                .HasForeignKey(a => a.Nmunicipality)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.Provincia)
+                .WithMany() // Sin relación inversa explícita
+                .HasForeignKey(a => a.Nprovince)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.Localidad)
+                .WithMany() // Sin relación inversa explícita
+                .HasForeignKey(a => a.Nlocal)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.Branch)
+                .WithMany() // Sin relación inversa explícita
+                .HasForeignKey(a => a.Nbranch)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.Producto)
+                .WithMany() // Sin relación inversa explícita
+                .HasForeignKey(a => new { a.Nbranch, a.Nproduct })
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.Poliza)
+                .WithMany() // Sin relación inversa explícita
+                .HasForeignKey(a => new { a.Nbranch, a.Nproduct, a.Npolicy })
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.Cliente)
+                .WithMany() // Sin relación inversa explícita
+                .HasForeignKey(a => a.Sclient)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.Usuario)
+                .WithMany() // Sin relación inversa explícita
+                .HasForeignKey(a => a.Nusercode)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             modelBuilder.Entity<Municipality>().ToTable("MUNICIPALITY");
             modelBuilder.Entity<Municipality>().HasKey(m => m.Nmunicipality);

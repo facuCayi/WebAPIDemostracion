@@ -3,6 +3,7 @@ using Dominio.Models;
 using Infraestructura.Persistencia;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Dominio.DTO_s.Response;
 
 namespace Infraestructura.Endpoints
 {
@@ -16,14 +17,14 @@ namespace Infraestructura.Endpoints
             this.polizaService = polizaService;
         }
 
-        // GET: api/polizas
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Poliza>>> GetPolizas()
+        // GET: api/poliza/{Nbranch}/{Nproduct}/{Npolicy}
+        [HttpGet("poliza/{Nbranch}/{Nproduct}/{Npolicy}")]
+        public ActionResult<PolizaBuscarResponse> GetPoliza(int Nbranch, int Nproduct, int Npolicy)
         {
-            ActionResult result;
+            ActionResult<PolizaBuscarResponse> result;
             try
             {
-                var polizas = await polizaService.GetAll();
+                PolizaBuscarResponse polizas = polizaService.GetPoliza(Nbranch, Nproduct, Npolicy);
 
                 result =  Ok(polizas);
             }
@@ -37,12 +38,12 @@ namespace Infraestructura.Endpoints
 
         // GET: api/polizas/cliente/{sclient}
         [HttpGet("cliente/{sclient}")]
-        public async Task<ActionResult<IEnumerable<Poliza>>> GetPolizasPorCliente(string sclient)
+        public ActionResult<IEnumerable<PolizaPorClienteResponse>> GetPolizasPorCliente(string sclient)
         {
-            ActionResult result;
+            ActionResult<IEnumerable<PolizaPorClienteResponse>> result;
             try
             {
-                var polizas = await polizaService.GetPolizasByUserCode(sclient);
+                List<PolizaPorClienteResponse> polizas = polizaService.GetPolizasByUserCode(sclient);
 
                 result = Ok(polizas);
             }

@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
 using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 
-    
+
 namespace Infraestructura.Endpoints
 {
     [Route("api/[controller]")]
@@ -20,13 +21,13 @@ namespace Infraestructura.Endpoints
 
         //GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Users>>> GetUsuarios()
+        public  ActionResult<IEnumerable<ClaseDDLResponse>> GetUsuarios()
         {
 
-            ActionResult result;
+            ActionResult<IEnumerable<ClaseDDLResponse>> result;
             try
             {
-                var usuarios = await usuarioService.GetAll();
+                List<ClaseDDLResponse> usuarios = usuarioService.GetAll();
                 result = Ok(usuarios);
             }
             catch (Exception ex)
@@ -41,12 +42,12 @@ namespace Infraestructura.Endpoints
 
         //GET: api/users/{nusercode}
         [HttpGet("/nusercode")]
-        public async Task<ActionResult<Users>> GetUsers(int nusercode)
+        public ActionResult<ClaseDDLResponse> GetUsers(int nusercode)
         {
-            ActionResult result;
+            ActionResult<ClaseDDLResponse> result;
             try
-            { 
-                var usuario = await usuarioService.GetUsuarioByUserCode(nusercode);
+            {
+                ClaseDDLResponse usuario = usuarioService.GetUsuarioByUserCode(nusercode);
                 result =  Ok(usuario);
             }
             catch (Exception ex)

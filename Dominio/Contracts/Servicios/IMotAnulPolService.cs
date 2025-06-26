@@ -1,10 +1,11 @@
-﻿using Dominio.Models;
+﻿using Dominio.DTO_s.Response;
+using Dominio.Models;
 
 namespace Dominio.Contracts.Servicios
 {
     public interface IMotAnulPolService
     {
 
-       Task<List<MotAnulacionPoliza>> GetAll();
+       List<ClaseDDLResponse> GetAll();
     }
 }

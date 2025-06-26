@@ -14,12 +14,12 @@ namespace Aplicacion.Services
         {
             _ramoComercialRepository = ramoComercialRepository;
         }
-        public  List<RamoComercialDDLResponse> GetAll()
+        public  List<ClaseDDLResponse> GetAll()
         {
             List<RamoComercial> ramoComerciales = _ramoComercialRepository.GetAll().Result;
-            List<RamoComercialDDLResponse> response = ramoComerciales.Select(rc => new RamoComercialDDLResponse
+            List<ClaseDDLResponse> response = ramoComerciales.Select(rc => new ClaseDDLResponse
             {
-                NBRANCH = rc.Nbranch,
+                NCODIGO = rc.Nbranch,
                 SDESCRIPT = rc.Sdescript == null ? string.Empty : rc.Sdescript.Trim()
             }).ToList();
             return response;

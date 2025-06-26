@@ -1,5 +1,6 @@
 ﻿using Dominio.Contracts.Repositorios;
 using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 using Dominio.Models;
 
 namespace Aplicacion.Services;
@@ -14,14 +15,28 @@ namespace Aplicacion.Services;
     }
 
 
-    public Task<List<Users>> GetAll()
+    public List<ClaseDDLResponse> GetAll()
     {
-        return usuarioRepository.GetAllUsuarios();
+        List<Users> clientes = usuarioRepository.GetAll().Result;
+        List<ClaseDDLResponse> clientesResponse = clientes.Select(c => new ClaseDDLResponse
+        {
+            NCODIGO = c.Nusercode,
+            SDESCRIPT = c.Sinitials == null ? string.Empty : c.Sinitials.Trim()
+        }).ToList();
+
+        return clientesResponse;
     }
 
-    public Task<Users> GetUsuarioByUserCode(int nusercode)
+    public ClaseDDLResponse GetUsuarioByUserCode(int nusercode)
     {
-        return usuarioRepository.GetByUserCode(nusercode);
+        Users usuario =  usuarioRepository.GetByUserCode(nusercode).Result;
+        ClaseDDLResponse usuarioResponse = new ClaseDDLResponse
+        {
+            NCODIGO = usuario.Nusercode,
+            SDESCRIPT = usuario.Sinitials == null ? string.Empty : usuario.Sinitials.Trim()
+        };
+
+        return usuarioResponse;
     }
 }
 

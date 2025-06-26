@@ -6,7 +6,7 @@ namespace Dominio.Contracts.Repositorios;
 {
     Task<Users> GetByUserCode(int nusercode);
 
-    Task<List<Users>> GetAllUsuarios();
+    Task<List<Users>> GetAll();
 
 
 }

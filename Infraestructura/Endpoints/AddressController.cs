@@ -4,6 +4,7 @@ using Infraestructura.Persistencia;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using Dominio.DTO_s.Response;
 
 namespace Infraestructura.Endpoints
 {
@@ -19,17 +20,17 @@ namespace Infraestructura.Endpoints
         }
         // GET: api/address/{nrecowner}/{skeyaddress}/{sinfor}
         [HttpGet("address/{nrecowner}/{skeyaddress}/{deffecdate}/{sinfor}")]
-        public async Task<ActionResult<Address>> GetAddress(int nrecowner, string skeyaddress, string deffecdate, string sinfor)
+        public ActionResult<AddressVisDatosResponse> GetAddress(int nrecowner, string skeyaddress, string deffecdate, string sinfor)
         {
-            ActionResult result;
+            ActionResult<AddressVisDatosResponse> result;
             try
-            {  
-               // DateTime fechaInicio = fecha.Date;
+            {
+                // DateTime fechaInicio = fecha.Date;
                 //DateTime fechaFin = fechaInicio.AddDays(1);
 
-                var address = await addressService.GetAddress(nrecowner, skeyaddress, deffecdate, sinfor);
+                AddressVisDatosResponse addressResponse =addressService.GetAddress(nrecowner, skeyaddress, deffecdate, sinfor);
 
-                result = Ok(address);
+                result = Ok(addressResponse);
     
             }
             catch (Exception ex)

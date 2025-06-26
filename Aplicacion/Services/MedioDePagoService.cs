@@ -14,13 +14,13 @@ namespace Aplicacion.Services
             this.medioDePagoRepository = medioDePagoRepository;
         }
 
-        public List<MedioDePagoComboBoxTratPolResponse> GetAll()
+        public List<ClaseDDLResponse> GetAll()
         {
             // Assuming WayPayComboBoxResponse is a DTO that maps to WayPay entity
             List<MedioDePago> wayPays = medioDePagoRepository.GetAll().Result;
-            List<MedioDePagoComboBoxTratPolResponse> response = wayPays.Select(wp => new MedioDePagoComboBoxTratPolResponse
+            List<ClaseDDLResponse> response = wayPays.Select(wp => new ClaseDDLResponse
             {
-                NWAY_PAY = wp.Nway_pay,
+                NCODIGO = wp.Nway_pay,
                 SDESCRIPT = wp.Sdescript == null ? string.Empty : wp.Sdescript.Trim()
             }).ToList();
             return response;

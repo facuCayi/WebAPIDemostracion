@@ -5,7 +5,7 @@ namespace Dominio.Contracts.Repositorios
 {
     public interface IPolizaRepository
     {
-        Task<List<Poliza>> GetAll();
+        Task<Poliza> GetPoliza(int Nbranch, int Nproduct, int Npolicy);
         Task<List<Poliza>> GetPolizasByUserCode(string sclient);
     }
 }

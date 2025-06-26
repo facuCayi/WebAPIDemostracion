@@ -1,6 +1,7 @@
 ﻿using Dominio.Contracts.Repositorios;
 using Dominio.Contracts.Servicios;
 using Dominio.Models;
+using Dominio.DTO_s.Response;
 
 namespace Aplicacion.Services
 {
@@ -13,14 +14,42 @@ namespace Aplicacion.Services
             this.polizaRepository = polizaRepository;
         }
 
-        public Task<List<Poliza>> GetAll()
+        public PolizaBuscarResponse GetPoliza(int Nbranch, int Nproduct, int Npolicy)
         {
-            return polizaRepository.GetAll();
+            Poliza poliza = polizaRepository.GetPoliza(Nbranch, Nproduct, Npolicy).Result;
+            PolizaBuscarResponse polizaResponse = new PolizaBuscarResponse
+            {
+                NBRANCH = poliza.Nbranch,
+                NPRODUCT = poliza.Nproduct,
+                NPOLICY = poliza.Npolicy,
+                SCLIENT = poliza.Sclient,
+               DDATE_ORIGI = poliza.Ddate_origi,
+               DSTARTDATE = poliza.Dstartdate,
+               DEXPIRDAT =  poliza.Dexpirdat,
+               NCAPITAL = poliza.Ncapital,
+               DCOMPDATE = poliza.Dcomdate,
+               DNULLDATE = poliza.Dnulldate,
+               NNULLCODE = poliza.Nnullcode,
+               NUSERCODE = poliza.Nusercode,
+               NWAY_PAY = poliza.Nway_pay,
+
+            };
+            return polizaResponse;
         }
 
-        public Task<List<Poliza>> GetPolizasByUserCode(string sclient)
+        public List<PolizaPorClienteResponse> GetPolizasByUserCode(string sclient)
         {
-            return polizaRepository.GetPolizasByUserCode(sclient);
+            List<Poliza> polizas = polizaRepository.GetPolizasByUserCode(sclient).Result;
+            List<PolizaPorClienteResponse> polizasResponse = polizas.Select(p => new PolizaPorClienteResponse
+            {
+                Poliza = p.Npolicy,
+                Rama = p.Nbranch,
+                Producto = p.Product.Nproduct,
+            }).ToList();
+            
+            return polizasResponse;
         }
+
+     
     }
 }

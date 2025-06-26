@@ -1,12 +1,13 @@
-﻿using Dominio.Models;
+﻿using Dominio.DTO_s.Response;
+using Dominio.Models;
 
 namespace Dominio.Contracts.Servicios
 {
     public interface IUsuarioService
     {
-        Task<List<Users>> GetAll();
+        List<ClaseDDLResponse> GetAll();
 
-        Task<Users> GetUsuarioByUserCode(int nusercode);
+        ClaseDDLResponse GetUsuarioByUserCode(int nusercode);
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using Dominio.Models;
+﻿using Dominio.DTO_s.Response;
+using Dominio.Models;
 using System.Threading.Tasks;
 
 namespace Dominio.Contracts.Servicios
@@ -6,6 +7,6 @@ namespace Dominio.Contracts.Servicios
     public interface IMotAnulRecService
     {
 
-        Task<List<MotAnulacionRecibo>> GetAll();
+        List<ClaseDDLResponse> GetAll();
     }
 }

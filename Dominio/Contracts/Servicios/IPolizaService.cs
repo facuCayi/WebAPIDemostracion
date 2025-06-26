@@ -1,12 +1,13 @@
-﻿using Dominio.Models;
+﻿using Dominio.DTO_s.Response;
+using Dominio.Models;
 
 namespace Dominio.Contracts.Servicios
 {
     public interface IPolizaService
     {
 
-        Task<List<Poliza>> GetAll();
+        PolizaBuscarResponse GetPoliza(int Nbranch, int Nproduct, int Npolicy);
 
-        Task<List<Poliza>> GetPolizasByUserCode(string sclient);
+        List<PolizaPorClienteResponse> GetPolizasByUserCode(string sclient);
     }
 }

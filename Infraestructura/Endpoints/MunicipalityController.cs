@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
 using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 
 
 namespace Infraestructura.Endpoints
@@ -20,12 +21,12 @@ namespace Infraestructura.Endpoints
 
         // GET: api/municipality
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Municipality>>> GetMunicipalities()
+        public ActionResult<IEnumerable<ClaseDDLResponse>> GetMunicipalities()
         {
-            ActionResult result;
+            ActionResult<IEnumerable<ClaseDDLResponse>> result;
             try
             {
-                var municipalities = await municipalityService.GetAll();
+                List<ClaseDDLResponse> municipalities =  municipalityService.GetAll();
                 result =  Ok(municipalities);
             }
             catch (Exception ex)
@@ -38,12 +39,12 @@ namespace Infraestructura.Endpoints
 
         // GET: api/municipality/province/{nprovince}
         [HttpGet("{nprovince}")]
-        public async Task<ActionResult<IEnumerable<Municipality>>> GetMunicipalityPorNProvince(int nprovince)
+        public ActionResult<IEnumerable<ClaseDDLResponse>> GetMunicipalityPorNProvince(int nprovince)
         {
-            ActionResult result;
+            ActionResult<IEnumerable<ClaseDDLResponse>> result;
             try
             {
-                var municipalidad = await municipalityService.GetByProvince(nprovince);
+                List<ClaseDDLResponse> municipalidad = municipalityService.GetByProvince(nprovince);
 
                 result =  Ok(municipalidad);
             }

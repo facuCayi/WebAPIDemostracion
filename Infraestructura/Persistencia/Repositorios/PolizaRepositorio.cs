@@ -13,7 +13,7 @@ namespace Infraestructura.Persistencia.Repositorios
             this.context = context;
         }
 
-        public Task<List<Poliza>> GetAll()
+        public Task<Poliza> GetPoliza(int Nbranch, int Nproduct, int Npolicy)
         {
             return  context.Polizas
             .Include(p => p.Client)
@@ -21,7 +21,10 @@ namespace Infraestructura.Persistencia.Repositorios
             .Include(p => p.NullCode)
             .Include(p => p.Usuario)
             .Include(p => p.Product)
-            .ToListAsync();
+            .Where(p => p.Nbranch == Nbranch &&
+                    p.Nproduct == Nproduct && 
+                    p.Npolicy == Npolicy)
+           .FirstOrDefaultAsync();
         }
 
         public Task<List<Poliza>> GetPolizasByUserCode(string sclient)

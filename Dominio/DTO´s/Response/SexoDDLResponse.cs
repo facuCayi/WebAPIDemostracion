@@ -1,6 +1,4 @@
-﻿
-
-namespace Dominio.DTO_s.Response;
+﻿namespace Dominio.DTO_s.Response;
 
     public class SexoDDLResponse
     {

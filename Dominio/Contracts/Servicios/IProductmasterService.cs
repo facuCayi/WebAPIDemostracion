@@ -1,11 +1,12 @@
-﻿using Dominio.Models;
+﻿using Dominio.DTO_s.Response;
+using Dominio.Models;
 
 namespace Dominio.Contracts.Servicios
 {
     public interface IProductmasterService
     {
-        Task<List<Productmaster>> GetAll();
+        List<ClaseDDLResponse> GetAll();
 
-        Task<List<Productmaster>> GetProductosPorRama(int nbranch);
+        List<ClaseDDLResponse> GetProductosPorRama(int nbranch);
     }
 }

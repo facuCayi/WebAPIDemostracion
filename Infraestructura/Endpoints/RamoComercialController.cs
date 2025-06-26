@@ -19,12 +19,12 @@ namespace Infraestructura.Endpoints
 
         //GET: api/RamoComercial
         [HttpGet]
-        public ActionResult<IEnumerable<RamoComercialDDLResponse>> GetRamos()
+        public ActionResult<IEnumerable<ClaseDDLResponse>> GetRamos()
         {
-            ActionResult<IEnumerable<RamoComercialDDLResponse>> result;
+            ActionResult<IEnumerable<ClaseDDLResponse>> result;
             try
             {
-                List<RamoComercialDDLResponse> ramos = ramoService.GetAll();
+                List<ClaseDDLResponse> ramos = ramoService.GetAll();
 
                 result =  Ok(ramos);
             }

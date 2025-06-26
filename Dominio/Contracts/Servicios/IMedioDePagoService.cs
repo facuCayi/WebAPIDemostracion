@@ -5,7 +5,7 @@ namespace Dominio.Contracts.Servicios
 {
     public interface IMedioDePagoService
     {
-        List<MedioDePagoComboBoxTratPolResponse> GetAll();
+        List<ClaseDDLResponse> GetAll();
         List<MedioDePagoTabalMantResponse> GetAllMant();
     }
 }
