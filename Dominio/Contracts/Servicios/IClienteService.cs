@@ -14,5 +14,7 @@ namespace Dominio.Contracts.Servicios
         Task CambiarEstadoClienteAsync(string clienteId);
 
         Task EditarClienteAsync(Client client);
+
+        Task<ResulClientesPorRolResponse> GetClientesPorRolAsync(int rama, int producto, int poliza);
     }
 }

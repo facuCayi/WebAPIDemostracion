@@ -1,7 +1,9 @@
 ﻿using Dominio.Contracts.Repositorios;
+using Dominio.DTO_s.Response;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
 using Oracle.ManagedDataAccess.Client;
+using Oracle.ManagedDataAccess.Types;
 using System.Data;
 using System.Drawing;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -162,6 +164,78 @@ namespace Infraestructura.Persistencia.Repositorios
                 await context.SaveChangesAsync();
 
             }
+        }
+
+        public async Task<ResulClientesPorRolResponse> BuscarClientesPorRol(int Nbranch, int Nproduct, int Npolicy)
+        {
+            ResulClientesPorRolResponse response = new ResulClientesPorRolResponse();
+            try
+            {
+                context.Database.OpenConnection();
+                OracleCommand command = new OracleCommand("SP_FIND_CLIENTS_BY_ROL", context.Database.GetDbConnection() as OracleConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("P_NBRANCH", OracleDbType.Int32).Value = Nbranch;
+                command.Parameters.Add("P_NPRODUCT", OracleDbType.Int32).Value = Nproduct;
+                command.Parameters.Add("P_NPOLICY", OracleDbType.Int32).Value = Npolicy;
+
+                command.Parameters.Add("O_TITULAR", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                command.Parameters.Add("O_ASEGURADO", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                command.Parameters.Add("O_BENEFICIARIOS", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                await command.ExecuteNonQueryAsync();
+
+                // TITULAR
+                using (var reader = ((OracleRefCursor)command.Parameters["O_TITULAR"].Value).GetDataReader())
+                {
+                    if (reader.Read())
+                    {
+                        response.Titular = new ClienteResponse
+                        {
+                            Sclient = reader["SCLIENT"].ToString(),
+                            Scliename = reader["SCLIENAME"].ToString(),
+                            Scuit = reader["SCUIT"].ToString()
+                        };
+                    }
+                }
+
+                // ASEGURADO
+                using (var reader = ((OracleRefCursor)command.Parameters["O_ASEGURADO"].Value).GetDataReader())
+                {
+                    if (reader.Read())
+                    {
+                        response.Asegurado = new ClienteResponse
+                        {
+                            Sclient = reader["SCLIENT"].ToString(),
+                            Scliename = reader["SCLIENAME"].ToString(),
+                            Scuit = reader["SCUIT"].ToString()
+                        };
+                    }
+                }
+
+                // BENEFICIARIOS
+                using (var reader = ((OracleRefCursor)command.Parameters["O_BENEFICIARIOS"].Value).GetDataReader())
+                {
+                    while (reader.Read())
+                    {
+                        response.Beneficiarios.Add(new ClienteResponse
+                        {
+                            Sclient= reader["SCLIENT"].ToString(),
+                            Scliename = reader["SCLIENAME"].ToString(),
+                            Scuit = reader["SCUIT"].ToString()
+                        });
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar clientes por rol", ex);
+            }
+            finally
+            {
+                context.Database.CloseConnection();
+            }
+
+            return response;
         }
     }
 }

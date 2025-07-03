@@ -65,8 +65,6 @@ namespace Infraestructura.Persistencia.Repositorios
                 command.Parameters.Add("P_NPRODUCT", OracleDbType.Int32, address.Nproduct, ParameterDirection.Input);
                 command.Parameters.Add("P_NPOLICY", OracleDbType.Int32, address.Npolicy, ParameterDirection.Input);
 
-
-
                 return Task.FromResult(true);
             }
             catch (Exception ex)

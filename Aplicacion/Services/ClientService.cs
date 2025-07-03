@@ -95,5 +95,11 @@ namespace Aplicacion.Services
             }
             return clienteRepository.EditarClienteAsync(client);
         }
+
+        public async Task<ResulClientesPorRolResponse> GetClientesPorRolAsync(int Nbranch, int Nproduct, int Npolicy)
+        {
+            
+            return await clienteRepository.BuscarClientesPorRol(Nbranch, Nproduct, Npolicy);
+        }
     }
 }

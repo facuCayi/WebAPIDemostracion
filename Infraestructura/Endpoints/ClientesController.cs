@@ -124,5 +124,12 @@ public class ClientesController : ControllerBase
             }
         }
 
+        [HttpGet("buscar-clientes-por-rol")]
+        public async Task<ResulClientesPorRolResponse> BuscarClientesPorRol([FromQuery] int Rama, [FromQuery] int Producto, [FromQuery] int NPoliza)
+        {
+           
+            return  await clienteService.GetClientesPorRolAsync(Rama, Producto, NPoliza);
+        }
+
     }
 }
