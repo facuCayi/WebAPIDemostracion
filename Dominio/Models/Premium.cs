@@ -52,5 +52,21 @@ namespace Dominio.Models
         [Column("NUSERCODE")]
         public int? Nusercode { get; set; }
 
+        public virtual Users Usuario { get; set; }
+        public virtual MedioDePago Way_pay { get; set; }
+
+        public virtual MotAnulacionRecibo NullCode { get; set; }
+
+        public virtual EstadoCobroRecibo EstadoCobro { get; set; }
+        public virtual EstadoRecibo Estado { get; set; }
+
+        public virtual Poliza Poliza { get; set; }
+
+        public virtual Productmaster Product { get; set; }
+        public virtual RamoComercial Branch { get; set; }
+       
+
+
+
     }
 }

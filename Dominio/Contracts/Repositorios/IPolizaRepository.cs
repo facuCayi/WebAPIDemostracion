@@ -1,4 +1,5 @@
-﻿using Dominio.Models;
+﻿using Dominio.DTO_s.Request;
+using Dominio.Models;
 
 
 namespace Dominio.Contracts.Repositorios
@@ -7,5 +8,9 @@ namespace Dominio.Contracts.Repositorios
     {
         Task<Poliza> GetPoliza(int Nbranch, int Nproduct, int Npolicy);
         Task<List<Poliza>> GetPolizasByUserCode(string sclient);
+
+        Task<int> InsertarNuevaPoliza(Poliza poliza, string IdTitular, string IdAsegurado, string IdBeneficiarios);
+
+        Task<bool> AnularPolicy(AnularPolizaRequest poliza, int motAnulacion, DateTime fechaAnulacion);
     }
 }

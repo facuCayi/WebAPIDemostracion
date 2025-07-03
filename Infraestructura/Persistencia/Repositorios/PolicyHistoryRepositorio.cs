@@ -11,16 +11,29 @@ namespace Infraestructura.Persistencia.Repositorios
         {
             this.context = context;
         }
-        public Task<List<PolicyHistory>> GetAll()
+
+        public async Task<(List<PolicyHistory> historial, string rama, string producto)> GetHistorialPolizaCompleto(int nbranch, int nproduct, int npolicy)
         {
-            return context.PolicyHistories
-                .Include(p => p.Client)
-                .Include(p => p.Way_pay)
-                .Include(p => p.NullCode)
-                .Include(p => p.Usuario)
-                .Include(p => p.Branch)
-                .Include(p => p.Product)
+            var historial = await context.PolicyHistories
+                .Where(ph => ph.Nbranch == nbranch &&
+                             ph.Nproduct == nproduct &&
+                             ph.Npolicy == npolicy)
+                .Include(ph => ph.Way_pay)
+                .Include(ph => ph.NullCode)
+                .Include(ph => ph.Usuario)
                 .ToListAsync();
+
+            var rama = await context.RamoComercials
+                .Where(b => b.Nbranch == nbranch)
+                .Select(b => b.Sdescript)
+                .FirstOrDefaultAsync();
+
+            var producto = await context.Productmasters
+                .Where(p => p.Nbranch == 1 && p.Nproduct == nproduct)
+                .Select(p => p.Sdescript)
+                .FirstOrDefaultAsync();
+
+            return (historial, rama, producto);
         }
     }
 }

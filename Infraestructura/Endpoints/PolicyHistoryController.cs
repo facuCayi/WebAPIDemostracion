@@ -1,8 +1,10 @@
-﻿using Infraestructura.Persistencia;
-using Microsoft.AspNetCore.Mvc;
+﻿using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Response;
 using Dominio.Models;
+using Infraestructura.Persistencia;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Dominio.Contracts.Servicios;
+using System.Collections.Generic;
 
 namespace Infraestructura.Endpoints
 {
@@ -17,14 +19,14 @@ namespace Infraestructura.Endpoints
             this.policyHistoryService = policyHistoryService;
         }
 
-        //GET: api/PolicyHistory
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<PolicyHistory>>> GetPolicyHistorys()
+        // GET: api/policyHistory/{Nbranch}/{Nproduct}/{Npolicy}
+        [HttpGet("{nbranch}/{nproduct}/{npolicy}")]
+        public async Task<ActionResult<IEnumerable<HistorialPolizaResponse>>> GetPolicyHistorys(int nbranch, int nproduct, int npolicy)
         {
-            ActionResult result;
+            ActionResult<IEnumerable<HistorialPolizaResponse>> result;
             try
             {
-                var historiales = await policyHistoryService.GetAll();
+                List<HistorialPolizaResponse> historiales = await policyHistoryService.GetHistorialPoliza(nbranch,nproduct,npolicy);
 
                 result =  Ok(historiales);
 

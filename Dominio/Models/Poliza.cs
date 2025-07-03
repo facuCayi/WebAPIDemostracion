@@ -31,7 +31,7 @@ namespace Dominio.Models
         public DateTime Dexpirdat { get; set; }
 
         [Column("NCAPITAL")]
-        public int Ncapital { get; set; }
+        public decimal Ncapital { get; set; }
 
         [Column("NWAY_PAY")]
         [ForeignKey(nameof(Way_pay))]

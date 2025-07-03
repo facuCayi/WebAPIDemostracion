@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Infraestructura.Persistencia;
-using Aplicacion.Services;
-using Dominio.Contracts.Servicios;
+﻿using Aplicacion.Services;
 using Dominio.Contracts.Repositorios;
+using Dominio.Contracts.Servicios;
+using Infraestructura.Persistencia;
 using Infraestructura.Persistencia.Repositorios;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,6 +60,9 @@ builder.Services.AddScoped(typeof(IRamoComercialRepository), typeof(RamoComercia
 
 builder.Services.AddScoped(typeof(ISexoRepository), typeof(SexoRepositorio));
 builder.Services.AddScoped(typeof(ISexoService), typeof(SexoService));
+
+
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

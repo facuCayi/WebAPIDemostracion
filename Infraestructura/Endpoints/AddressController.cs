@@ -1,10 +1,12 @@
-﻿using Dominio.Contracts.Servicios;
+﻿using Aplicacion.Services;
+using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Request;
+using Dominio.DTO_s.Response;
 using Dominio.Models;
 using Infraestructura.Persistencia;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using Dominio.DTO_s.Response;
 
 namespace Infraestructura.Endpoints
 {
@@ -40,5 +42,25 @@ namespace Infraestructura.Endpoints
 
             return result;
         }
+
+        [HttpPost("new")]
+
+        public ActionResult<bool> CreateAddress([FromBody] NewAddressRequest request)
+        {
+            ActionResult result;
+            try
+            {
+                addressService.CreateAddress(request);
+
+                result = Ok(true); // Retorna true si la creación fue exitosa
+            }
+            catch (Exception ex)
+            {
+                result = StatusCode(500, ex.Message); // Manejo de errores
+            }
+            return result;
+
+        }
+
     }
 }

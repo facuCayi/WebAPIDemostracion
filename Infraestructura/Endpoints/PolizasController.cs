@@ -4,6 +4,7 @@ using Infraestructura.Persistencia;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Dominio.DTO_s.Response;
+using Dominio.DTO_s.Request;
 
 namespace Infraestructura.Endpoints
 {
@@ -26,11 +27,11 @@ namespace Infraestructura.Endpoints
             {
                 PolizaBuscarResponse polizas = polizaService.GetPoliza(Nbranch, Nproduct, Npolicy);
 
-                result =  Ok(polizas);
+                result = Ok(polizas);
             }
             catch (Exception ex)
             {
-                result =  StatusCode(500, $"Error al obtener pólizas: {ex.Message}");
+                result = StatusCode(500, $"Error al obtener pólizas: {ex.Message}");
             }
 
             return result;
@@ -55,5 +56,38 @@ namespace Infraestructura.Endpoints
             return result;
         }
 
+        [HttpPost("insertar")]
+        public async Task<IActionResult> InsertarPoliza([FromBody] NewPolicyRequest polizaRequest, [FromQuery] string idTitular, [FromQuery] string idAsegurado, [FromQuery] string idBeneficiarios)
+        {
+            ActionResult result;
+            try
+            {
+                int nuevaPolizaId = await polizaService.InsertarNuevaPoliza(polizaRequest, idTitular, idAsegurado, idBeneficiarios);
+                result = Ok(new { message = "Póliza insertada exitosamente", id = nuevaPolizaId });
+            }
+            catch (Exception ex)
+            {
+                result = StatusCode(500, new { message = "Error interno al insertar póliza", error = ex.ToString() });
+            }
+
+            return result;
+        }
+
+        [HttpPatch("anular")]
+        public async Task<IActionResult> AnularPoliza([FromBody] AnularPolizaRequest polizaRequest,  int motAnulacion,  DateTime fechaAnulacion)
+        {
+            ActionResult result;
+            try
+            {
+                bool anulado = await polizaService.AnularPolicy(polizaRequest, motAnulacion, fechaAnulacion);
+                result = Ok(new { message = "Póliza anulada exitosamente", anulado });
+            }
+            catch (Exception ex)
+            {
+                result = StatusCode(500, new { message = "Error al anular póliza", error = ex.ToString() });
+            }
+            return result;
+
+        }
     }
 }

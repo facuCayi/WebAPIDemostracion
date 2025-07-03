@@ -6,7 +6,7 @@ namespace Dominio.Models
     [Table("USUARIOS")]
     public class Users
     {
-
+        [Key]
         [Column("NUSERCODE")]
         public int Nusercode { get; set; }
 

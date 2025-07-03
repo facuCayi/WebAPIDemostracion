@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Dominio.Models;
+﻿using Dominio.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Oracle.EntityFrameworkCore.Infrastructure;
 
 
@@ -26,7 +28,11 @@ namespace Infraestructura.Persistencia
         public DbSet<Nacionalidad> Nacionalidades {  get; set; }
         public DbSet<MotAnulacionRecibo> MotAnulacionRecibos { get; set; }
         public DbSet<Users> Users { get; set; }
-        
+
+        public DbSet<EstadoCobroRecibo> EstadosCobros { get; set; }
+
+        public DbSet<EstadoRecibo> EstadosRecibos { get; set; }
+
         public DbSet<PolicyHistory> PolicyHistories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -139,6 +145,40 @@ namespace Infraestructura.Persistencia
 
             modelBuilder.Entity<Premium>().ToTable("PREMIUM");
             modelBuilder.Entity<Premium>().HasKey(p => new { p.Nbranch, p.Nproduct, p.Npolicy, p.Nreceipt });
+            modelBuilder.Entity<Premium>()
+                .HasOne(p => p.Poliza)
+                .WithMany()
+                .HasForeignKey(p => new { p.Nbranch, p.Nproduct, p.Npolicy });
+            modelBuilder.Entity<Premium>()
+                .HasOne(p => p.Usuario)
+                .WithMany()
+                .HasForeignKey(p => p.Nusercode);
+            modelBuilder.Entity<Premium>()
+                .HasOne(p => p.Branch)
+                .WithMany()
+                .HasForeignKey(p => p.Nbranch);
+            modelBuilder.Entity<Premium>()
+                .HasOne(p => p.Product)
+                .WithMany()
+                .HasForeignKey(p => new { p.Nbranch, p.Nproduct });
+            modelBuilder.Entity<Premium>()
+                .HasOne(p=> p.Way_pay)
+                .WithMany()
+                .HasForeignKey(p => p.Nway_pay);
+            modelBuilder.Entity<Premium>()
+                .HasOne(p => p.NullCode)
+                .WithMany()
+                .HasForeignKey(p => p.Nnullcode);
+            modelBuilder.Entity<Premium>()
+                .HasOne(p => p.Estado)
+                .WithMany()
+                .HasForeignKey(p => p.Nstatus_pre);
+            modelBuilder.Entity<Premium>()
+                .HasOne(p => p.EstadoCobro)
+                .WithMany()
+                .HasForeignKey(p => p.Nstatus_pay);
+
+
 
             modelBuilder.Entity<Productmaster>().ToTable("PRODUCTMASTER");
             modelBuilder.Entity<Productmaster>().HasKey(p => new { p.Nbranch, p.Nproduct });
@@ -177,6 +217,20 @@ namespace Infraestructura.Persistencia
             modelBuilder.Entity<Users>().ToTable("USUARIOS");
             modelBuilder.Entity<Users>().HasKey(n => n.Nusercode);
 
+            modelBuilder.Entity<EstadoCobroRecibo>().ToTable("TABLE191");
+            modelBuilder.Entity<EstadoCobroRecibo>().HasKey(e => e.Nstatuspay);
+            modelBuilder.Entity<EstadoCobroRecibo>()
+                .HasOne(e => e.Usuario)
+                .WithMany()
+                .HasForeignKey(e => e.Nusercode);
+
+            modelBuilder.Entity<EstadoRecibo>().ToTable("TABLE19");
+            modelBuilder.Entity<EstadoRecibo>().HasKey(e => e.Nstatuspre);
+            modelBuilder.Entity<EstadoRecibo>()
+                .HasOne(e => e.Usuario)
+                .WithMany()
+                .HasForeignKey(e => e.Nusercode);
+
             modelBuilder.Entity<PolicyHistory>().ToTable("POLIZA_HISTORY");
             modelBuilder.Entity<PolicyHistory>().HasKey(p => new { p.Nbranch, p.Nproduct, p.Npolicy, p.Nmovment} );
             modelBuilder.Entity<PolicyHistory>()
@@ -205,6 +259,8 @@ namespace Infraestructura.Persistencia
                 .HasForeignKey(p => new { p.Nbranch, p.Nproduct });
 
             base.OnModelCreating(modelBuilder);
+
+
         }
     }
 }
