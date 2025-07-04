@@ -1,6 +1,8 @@
 ﻿using Dominio.Contracts.Repositorios;
 using Dominio.Models;
 using Microsoft.EntityFrameworkCore;
+using Oracle.ManagedDataAccess.Client;
+using System.Data;
 
 namespace Infraestructura.Persistencia.Repositorios
 {
@@ -81,6 +83,30 @@ namespace Infraestructura.Persistencia.Repositorios
                 recibo.Dissuedat = DateTime.Now;
             }
             await context.SaveChangesAsync();
+        }
+
+        public async Task EnvioACobro(string listaRecibos, int mediopPago)
+        {
+
+            try
+            {
+                context.Database.OpenConnection();
+                OracleCommand command = new OracleCommand("SP_FIND_CLIENTS_BY_ROL", context.Database.GetDbConnection() as OracleConnection);
+                command.CommandText = "SP_ENVIAR_A_COBRO_2";
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.Add("P_NWAY_PAY", OracleDbType.Int32).Value = mediopPago;
+                command.Parameters.Add("P_SLISTA_RECIBOS", OracleDbType.Char, listaRecibos, ParameterDirection.Input);
+                await command.ExecuteNonQueryAsync();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al enviar a cobro", ex);
+            }
+            finally
+            {
+                context.Database.CloseConnection();
+            }
         }
     }
 }

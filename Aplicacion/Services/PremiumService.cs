@@ -2,6 +2,7 @@
 using Dominio.Contracts.Servicios;
 using Dominio.Models;
 using Dominio.DTO_s.Response;
+using Dominio.DTO_s.Request;
 
 namespace Aplicacion.Services
 {
@@ -62,6 +63,16 @@ namespace Aplicacion.Services
         public async Task PagoDevolucion(int nwaypay)
         {
             await _premiumRepository.PagoDevolucion(nwaypay);
+        }
+
+        public async Task EnvioACobro(EnvioACobroPremiunRequest request)
+        {
+            var listaRecibos = request.listaRecibos;
+
+            int mPago = request.medioDePago;
+
+            await _premiumRepository.EnvioACobro(listaRecibos, mPago);
+
         }
     }
 }

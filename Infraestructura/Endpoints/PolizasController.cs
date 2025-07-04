@@ -89,5 +89,21 @@ namespace Infraestructura.Endpoints
             return result;
 
         }
+
+        [HttpPost("endosar")]
+        public async Task<IActionResult> EndosarPoliza([FromBody] EndosoRequest endosoRequest)
+        {
+            ActionResult result;
+            try
+            {
+                bool endosado = await polizaService.EndosarPolicy(endosoRequest);
+                result = Ok(new { message = "Póliza endosada exitosamente", endosado });
+            }
+            catch (Exception ex)
+            {
+                result = StatusCode(500, new { message = "Error al endosar póliza", error = ex.ToString() });
+            }
+            return result;
+        }
     }
 }

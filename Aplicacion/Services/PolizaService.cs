@@ -74,6 +74,41 @@ namespace Aplicacion.Services
             return polizaRepository.AnularPolicy(polizaRequest, motivoAnul, fechaAnul);
         }
 
+        public Task<bool> EndosarPolicy(EndosoRequest endosoRequest)
+        {
+            Poliza poliza = new Poliza
+            {
+                Nbranch = endosoRequest.Poliza.Nbranch,
+                Nproduct = endosoRequest.Poliza.Nproduct,
+                Npolicy = endosoRequest.Poliza.Npolicy,
+                Nway_pay = endosoRequest.Poliza.Nway_pay,
+            };
+
+            int indiceEndoso = endosoRequest.IndiceTipoEndoso;
+            DateTime fechaEndoso = endosoRequest.FechaEndoso;
+            string beneficiarios = endosoRequest.Beneficiarios;
+            Address direccionPostal = new Address
+            {
+                Nrecowner = endosoRequest.DireccionPostal.Nrecowner == 0 ? 0 : endosoRequest.DireccionPostal.Nrecowner,
+                Skeyaddress = endosoRequest.DireccionPostal.Skeyaddress,
+                Deffecdate = endosoRequest.DireccionPostal.Deffecdate,
+                Sinfor = endosoRequest.DireccionPostal.Sinfor,
+                Sstreet = endosoRequest.DireccionPostal.Sstreet,
+                Nheight = endosoRequest.DireccionPostal.Nheight == 0 ? 0 : endosoRequest.DireccionPostal.Nheight,
+                Sbuild = endosoRequest.DireccionPostal.Sbuild,
+                Nfloor = endosoRequest.DireccionPostal.Nfloor == 0 ? null : endosoRequest.DireccionPostal.Nfloor,
+                Sdepartment = endosoRequest.DireccionPostal.Sdepartment,
+                SzipCode = endosoRequest.DireccionPostal.SzipCode,
+                Szone = endosoRequest.DireccionPostal.Szone,
+                Nlocal = endosoRequest.DireccionPostal.Nlocal == 0 ? 0 : endosoRequest.DireccionPostal.Nlocal,
+                Nmunicipality = endosoRequest.DireccionPostal.Nmunicipality == 0 ? 0 : endosoRequest.DireccionPostal.Nmunicipality,
+                Nprovince = endosoRequest.DireccionPostal.Nprovince == 0 ? 0 : endosoRequest.DireccionPostal.Nprovince,
+                SeMail = endosoRequest.DireccionPostal.SeMail
+
+            };
+
+            return polizaRepository.EndosarPolicy(indiceEndoso, fechaEndoso, poliza,beneficiarios, direccionPostal);
+        }
 
     }
 }

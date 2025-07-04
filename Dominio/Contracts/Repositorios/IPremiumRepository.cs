@@ -13,5 +13,7 @@ namespace Dominio.Contracts.Repositorios
         Task<List<Premium>> GetPremiumsPorEnvioACobro(int nway_pay);
         Task AnularReciboAsync(int nreceipt, int nnullcode);
         Task PagoDevolucion(int nwaypay);
+
+        Task EnvioACobro(string listaRecibos, int mediopPago);
     }
 }

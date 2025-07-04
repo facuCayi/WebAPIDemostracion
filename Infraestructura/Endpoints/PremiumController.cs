@@ -1,4 +1,5 @@
 ﻿using Dominio.Contracts.Servicios;
+using Dominio.DTO_s.Request;
 using Dominio.DTO_s.Response;
 using Dominio.Models;
 using Infraestructura.Persistencia;
@@ -127,6 +128,23 @@ namespace Infraestructura.Endpoints
             {
                 var inner = ex.InnerException?.Message;
                 return StatusCode(500, $"Error al procesar el pago de devolución: {ex.Message} - Inner: {inner}");
+            }
+            return result;
+        }
+
+        [HttpPatch("envioACobro/")]
+        public async Task<IActionResult> EnvioACobro(EnvioACobroPremiunRequest request)
+        {
+            ActionResult result;
+            try
+            {
+                await premiumService.EnvioACobro(request);
+                result = Ok(new { message = "Envío a cobro procesado exitosamente." });
+            }
+            catch (Exception ex)
+            {
+                var inner = ex.InnerException?.Message;
+                return StatusCode(500, $"Error al procesar el envío a cobro: {ex.Message} - Inner: {inner}");
             }
             return result;
         }

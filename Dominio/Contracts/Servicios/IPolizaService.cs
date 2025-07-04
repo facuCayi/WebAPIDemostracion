@@ -15,5 +15,7 @@ namespace Dominio.Contracts.Servicios
 
         Task<bool> AnularPolicy(AnularPolizaRequest poliza, int motAnulacion, DateTime fechaAnulacion);
 
+        Task<bool> EndosarPolicy(EndosoRequest endosoRequest);
+
     }
 }

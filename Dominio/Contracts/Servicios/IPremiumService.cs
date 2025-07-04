@@ -1,4 +1,5 @@
-﻿using Dominio.DTO_s.Response;
+﻿using Dominio.DTO_s.Request;
+using Dominio.DTO_s.Response;
 using Dominio.Models;
 
 namespace Dominio.Contracts.Servicios
@@ -14,5 +15,6 @@ namespace Dominio.Contracts.Servicios
         Task AnularReciboAsync(int nreceipt, int nnullcode);
 
         Task PagoDevolucion(int nwaypay);
+        Task EnvioACobro(EnvioACobroPremiunRequest request);
     }
 }
