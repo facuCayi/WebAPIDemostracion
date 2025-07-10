@@ -26,7 +26,7 @@ namespace Infraestructura.Endpoints
             try
             {
                 List<ClaseDDLResponse> provinces = provinceService.GetAll();
-                return Ok(provinces);
+                result = Ok(provinces);
             }
             catch (Exception ex)
             {

@@ -36,7 +36,7 @@ namespace Infraestructura.Endpoints
             return result;
         }
 
-        //GET: api/productmaster}
+        //GET: api/productmaster
         [HttpGet]
         public ActionResult<IEnumerable<ClaseDDLResponse>> GetProductos()
         {

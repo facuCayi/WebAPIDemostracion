@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.DTO_s.Request;
 
-public class PolizaDTO
+public class PolizaRequest
 {
     public int Nbranch { get; set; }
     public int Nproduct { get; set; }

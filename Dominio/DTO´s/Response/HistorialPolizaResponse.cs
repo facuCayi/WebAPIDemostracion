@@ -37,7 +37,7 @@ public class HistorialPolizaResponse
     [JsonPropertyName("Fecha de Anulacion")]
     public DateTime? FechaAnulacion { get; set; }
 
-    [JsonPropertyName("Anulacion")]
+    [JsonPropertyName("Anulacion")]// Ver si esta repetido con FechaAnulacion   
     public DateTime? DnullDate { get; set; }
 
     [JsonPropertyName("Motivo de anulación")]

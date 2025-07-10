@@ -11,7 +11,7 @@ public class EndosoRequest
 {
     public int IndiceTipoEndoso { get; set; }
     public DateTime FechaEndoso { get; set; }
-    public PolizaDTO Poliza { get; set; }
+    public PolizaRequest Poliza { get; set; }
     public string? Beneficiarios { get; set; }
-    public AddressDTO? DireccionPostal { get; set; }
+    public AddressRequest? DireccionPostal { get; set; }
 }

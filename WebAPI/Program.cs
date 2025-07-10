@@ -8,6 +8,9 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Hace que la API escuche en localhost:5118
+builder.WebHost.UseUrls("http://localhost:5118");
+
 // Configurar el DbContext con Oracle
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));

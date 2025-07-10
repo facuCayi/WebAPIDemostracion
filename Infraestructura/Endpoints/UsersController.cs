@@ -41,7 +41,7 @@ namespace Infraestructura.Endpoints
 
 
         //GET: api/users/{nusercode}
-        [HttpGet("/nusercode")]
+        [HttpGet("nusercode")]
         public ActionResult<ClaseDDLResponse> GetUsers(int nusercode)
         {
             ActionResult<ClaseDDLResponse> result;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.DTO_s.Request;
 
-public class AddressDTO
+public class AddressRequest
 {
     public int Nrecowner { get; set; }
     public string Skeyaddress { get; set; }
